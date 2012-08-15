@@ -1,1 +1,1 @@
-Nazdar
+Nazdar zjazdar
