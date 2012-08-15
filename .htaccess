@@ -1,0 +1,5 @@
+Options +FollowSymlinks
+##################################### REWRITE RULES #########################################
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule !.*\.(js|ico|gif|jpg|png|css|pdf)$ index.php%{REQUEST_URI} [L]
