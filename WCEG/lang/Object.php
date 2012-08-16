@@ -57,15 +57,19 @@ class Object {
     }
 
     /**
-     * @author Peter Sokolík <PesokLP13@gmail.com>
+     * @author Peter Legéň <juicyrevenge@gmail.com>
      * 
      * @description
-     * return hash code of instanced object
+     * returns hash code of an object
      * 
-     * @return Integer $hashCode
+     * @return String $hashCode
      */
     public function hashCode() {
-        
+        return spl_object_hash($this);
+    }
+    
+    public function __toString() {
+        return $this->getClass().":".$this->hashCode();
     }
 }
 
