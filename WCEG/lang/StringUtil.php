@@ -52,7 +52,7 @@ final class StringUtil extends Object {
 
     public function concat($str) {
         if (is_string($str) || is_numeric($str)) {
-            return $this->string . $str;
+            return new StringUtil($this->string . $str);
         } else {
             throw new TypeMismatchException("Cannot concat with non-string object.");
         }
@@ -88,14 +88,6 @@ final class StringUtil extends Object {
 
     public function getBytes() {
         return unpack('C*', $this->string);
-    }
-
-    public function getChars() {
-        $array = array();
-        for ($i = 0; $i < strlen($this->string); $i++) {
-            $array[] = $this->charAt($i);
-        }
-        return $array;
     }
 
     public function indexOf($str, $fromIndex = 0) {
@@ -138,6 +130,14 @@ final class StringUtil extends Object {
         } 
         return false;
     }
+    
+    public function replace($old, $new) {
+        return new StringUtil(str_replace($old, $new, $this->string));
+    }
+    
+    public function split($regex, $limit=-1) {
+        return preg_split($regex, $this->string, $limit);
+    }
 
     /**
      * Returns substring of string with begin index and end index.
@@ -145,22 +145,34 @@ final class StringUtil extends Object {
      * @param String $beginIndex
      * @param String $endIndex (optional)
      * @return String
-     * @throws \Exception
+     * @throws TypeMismatchException
      */
     public function substring($beginIndex, $endIndex = null) {
         if ($endIndex != null) {
             if (is_int($beginIndex) && is_int($endIndex)) {
-                return substr($this->string, $beginIndex, ($endIndex - $beginIndex));
+                return new StringUtil(substr($this->string, $beginIndex, ($endIndex - $beginIndex)));
             } else {
                 throw new TypeMismatchException("InputMismatch: You have to input integer.");
             }
         } else {
             if (is_int($beginIndex)) {
-                return substr($this->string, $beginIndex);
+                return new StringUtil(substr($this->string, $beginIndex));
             } else {
                 throw new TypeMismatchException("InputMismatch: You have to input integer.");
             }
         }
+    }
+    
+    public function toCharArray() {
+        $array = array();
+        for ($i = 0; $i < strlen($this->string); $i++) {
+            $array[] = $this->charAt($i);
+        }
+        return $array;
+    }
+    
+    public function toLowerCase() {
+        return new StringUtil(strtolower($this->string));
     }
 
 }
