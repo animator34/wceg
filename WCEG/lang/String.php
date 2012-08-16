@@ -1,7 +1,7 @@
 <?php
 
 namespace WCEG\lang;
-
+use WCEG\util\Helper;
 /**
  * Description of String
  *
@@ -19,7 +19,7 @@ final class String extends Object {
      * @throws TypeMismatchException
      */
     public function __construct($param) {
-        if (is_string($param) || is_numeric($param)) {
+        if (Helper::isString($param) || is_numeric($param)) {
             $this->string = $param;
         } else {
             throw new TypeMismatchException("Cannot create string from non-string object.");
@@ -62,7 +62,7 @@ final class String extends Object {
      * @throws TypeMismatchException
      */
     public function compareTo($obj, $caseSensitive = false) {
-        if (is_string($obj) || is_numeric($obj)) {
+        if (Helper::isString($obj) || is_numeric($obj)) {
             if ($caseSensitive) {
                 $int = strcmp($this->string, $obj);
             } else {
@@ -88,7 +88,7 @@ final class String extends Object {
      * @throws TypeMismatchException
      */
     public function concat($str) {
-        if (is_string($str) || is_numeric($str)) {
+        if (Helper::isString($str) || is_numeric($str)) {
             return new String($this->string . $str);
         } else {
             throw new TypeMismatchException("Cannot concat with non-string object.");
@@ -104,7 +104,7 @@ final class String extends Object {
      * @throws TypeMismatchException
      */
     public function endsWith($suffix) {
-        if (is_string($suffix) || is_numeric($suffix)) {
+        if (Helper::isString($suffix) || is_numeric($suffix)) {
             $cmp = substr($this->string, -strlen($suffix));
             if (strcmp($cmp, $suffix) == 0) {
                 return true;
@@ -125,7 +125,7 @@ final class String extends Object {
      * @throws TypeMismatchException
      */
     public function equalsString($obj, $caseSensitive = false) {
-        if (is_string($obj) || is_numeric($obj)) {
+        if (Helper::isString($obj) || is_numeric($obj)) {
             if ($caseSensitive) {
                 $int = strcmp($this->string, $obj);
             } else {
@@ -160,7 +160,7 @@ final class String extends Object {
      * @throws TypeMismatchException
      */
     public function indexOf($str, $fromIndex = 0) {
-        if (!is_string($str) && !is_numeric($str)) {
+        if (!Helper::isString($str) && !is_numeric($str)) {
            throw new TypeMismatchException("You must input a string."); 
         }
         if (!is_int($fromIndex)) {
@@ -182,7 +182,7 @@ final class String extends Object {
      * @throws TypeMismatchException
      */
     public function lastIndexOf($str) {
-        if (!is_string($str) && !is_numeric($str)) {
+        if (!Helper::isString($str) && !is_numeric($str)) {
            throw new TypeMismatchException("You must input a string."); 
         }
         $lastIndex = -1;
@@ -237,7 +237,7 @@ final class String extends Object {
         if (!is_numeric($toffset) || !is_numeric($ooffset) || !is_numeric($len)) {
             throw new TypeMismatchException("Offsets and length must be numeric!");
         }
-        if (!is_string($other) && !is_numeric($other)) {
+        if (!Helper::isString($other) && !is_numeric($other)) {
             throw new TypeMismatchException("Other string must be a string value!");
         }
         if (!is_bool($caseSensitive)) {
@@ -313,7 +313,7 @@ final class String extends Object {
         if (!is_int($toffset)) {
             throw new TypeMismatchException("Offset must be an integer value.");
         }
-        if (is_string($prefix) || is_numeric($prefix)) {
+        if (Helper::isString($prefix) || is_numeric($prefix)) {
             $cmp = substr($this->string, $toffset, strlen($prefix));
             if (strcmp($cmp, $prefix) == 0) {
                 return true;
