@@ -7,7 +7,7 @@ namespace WCEG\lang;
  *
  * @author Peter Legéň <juicyrevenge@gmail.com>
  */
-final class StringUtil extends Object {
+final class String extends Object {
 
     private $string;
 
@@ -52,7 +52,7 @@ final class StringUtil extends Object {
 
     public function concat($str) {
         if (is_string($str) || is_numeric($str)) {
-            return new StringUtil($this->string . $str);
+            return new String($this->string . $str);
         } else {
             throw new TypeMismatchException("Cannot concat with non-string object.");
         }
@@ -70,7 +70,7 @@ final class StringUtil extends Object {
         }
     }
 
-    public function equals($obj, $caseSensitive = false) {
+    public function equalsString($obj, $caseSensitive = false) {
         if (is_string($obj) || is_numeric($obj)) {
             if ($caseSensitive) {
                 $int = strcmp($this->string, $obj);
@@ -150,13 +150,13 @@ final class StringUtil extends Object {
     public function substring($beginIndex, $endIndex = null) {
         if ($endIndex != null) {
             if (is_int($beginIndex) && is_int($endIndex)) {
-                return new StringUtil(substr($this->string, $beginIndex, ($endIndex - $beginIndex)));
+                return new String(substr($this->string, $beginIndex, ($endIndex - $beginIndex)));
             } else {
                 throw new TypeMismatchException("InputMismatch: You have to input integer.");
             }
         } else {
             if (is_int($beginIndex)) {
-                return new StringUtil(substr($this->string, $beginIndex));
+                return new String(substr($this->string, $beginIndex));
             } else {
                 throw new TypeMismatchException("InputMismatch: You have to input integer.");
             }
@@ -172,9 +172,12 @@ final class StringUtil extends Object {
     }
     
     public function toLowerCase() {
-        return new StringUtil(strtolower($this->string));
+        return new String(strtolower($this->string));
     }
 
+    public function __toString() {
+        return $this->string;
+    }
 }
 
 ?>
