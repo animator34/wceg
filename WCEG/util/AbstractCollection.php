@@ -3,7 +3,7 @@
 namespace WCEG\util;
 
 use WCEG\lang\Object;
-
+use WCEG\util\ArrayIterator;
 /**
  * Description of AbstractCollection
  *
@@ -11,7 +11,7 @@ use WCEG\lang\Object;
  */
 abstract class AbstractCollection extends Object implements Collection {
 
-    private $container;
+    protected $container;
 
     public function __construct() {
         $this->container = array();
@@ -30,8 +30,11 @@ abstract class AbstractCollection extends Object implements Collection {
     }
 
     public function contains(Object $o) {
-        foreach ($this->container as $a) {
-            if ($a == $o) {
+        $iterator = $this->iterator();
+        $pos = $this->size();
+        while (--$pos >= 0) {
+            $x = $iterator->next();
+            if ($o == $x) {
                 return true;
             }
         }
@@ -39,9 +42,10 @@ abstract class AbstractCollection extends Object implements Collection {
     }
 
     public function containsAll(Collection $c) {
-        $arr = $c->toArray();
-        for($i = 0; $i < count($this->container); $i++) {
-            if (!$this->contains($arr[$i])) {
+        $iterator = $c->iterator();
+        $pos = $c->size();
+        while (--$pos >= 0) {
+            if (!$this->contains($iterator->next())) {
                 return false;
             }
         }
@@ -56,16 +60,26 @@ abstract class AbstractCollection extends Object implements Collection {
     }
 
     public function iterator() {
-        
+        return new ArrayIterator($this->container);
     }
 
     public function remove(Object $o) {
-        for ($i = 0; $i < count($this->container); $i++) {
+        $iterator = $this->iterator();
+        $pos = $this->size();
+        while (--$pos >= 0) {
+            if ($o == $iterator->next()) {
+                $iterator->remove();
+                $this->container = $iterator->getArray();
+                return true;
+            }
+        }
+        return false;
+        /*for ($i = 0; $i < count($this->container); $i++) {
             if ($this->container[$i] == $o) {
                 unset($this->container[$i]);
             }
         }
-        $this->container = array_values($this->container);
+        $this->container = array_values($this->container);*/
     }
 
     public function removeAll(Collection $c) {
@@ -77,7 +91,7 @@ abstract class AbstractCollection extends Object implements Collection {
     }
 
     public function size() {
-        
+        return count($this->container);
     }
 
     public function toArray() {
