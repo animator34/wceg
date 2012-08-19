@@ -52,7 +52,7 @@ class Object {
      */
     public function getClass() {
         $namespace = get_class($this);
-        $className = end(explode("\\", $namespace));
+        $className = @end(explode("\\", $namespace));
         return $className;
     }
 
