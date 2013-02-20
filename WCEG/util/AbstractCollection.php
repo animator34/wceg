@@ -4,7 +4,6 @@ namespace WCEG\util;
 
 use WCEG\lang\Object;
 use WCEG\util\ArrayIterator;
-use WCEG\lang\Iterable;
 
 /**
  * This class provides a skeletal implementation of the Collection interface, to minimize the effort required to implement this interface. 

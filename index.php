@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="styles/style.css" type="text/css"></link>
     </head>
     <body>
-                som na index.php
+
     </body>
 </html>
 <?php
