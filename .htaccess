@@ -1,5 +1,9 @@
 Options +FollowSymlinks
 ##################################### REWRITE RULES #########################################
 RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule !.*\.(js|ico|gif|jpg|png|css|pdf)$ index.php%{REQUEST_URI} [L]
+
+RewriteCond %{DOCUMENT_ROOT} !-f
+RewriteRule ^(.*)(php|html|htm)$ index.php [QSA,L]
+RewriteRule ^js/(.*)\.js$ assets/js/$1.js
+RewriteRule ^styles/(.*)\.css$ assets/css/$1.css
+RewriteRule ^images/(.*)\.(jpg|gif|png|ico|jpeg) assets/images/$1.$2
